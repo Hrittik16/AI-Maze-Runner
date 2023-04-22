@@ -1,15 +1,5 @@
 import random
-
-class Cell:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.visited = False
-        self.walls = {"top": True, "right": True, "bottom": True, "left": True}
-        self.object = None
-
-    def __str__(self):
-        return f"({self.x}, {self.y})"
+from .maze_objects import Cell, Door, Agent, Wall
 
 class Maze:
     def __init__(self, width, height):
@@ -18,36 +8,24 @@ class Maze:
         self.grid = [[Cell(x, y) for y in range(height)] for x in range(width)]
 
     def __str__(self):
-        output = ""
+        output = "+"
+        for x in range(self.width):
+            output += "--+"
+        output += "\n"
+
         for y in range(self.height):
+            output += "|"
             for x in range(self.width):
                 output += "  " if self.grid[x][y].walls["top"] else "__"
-            output += "\n"
-            for x in range(self.width):
-                output += " " if self.grid[x][y].walls["left"] else "|"
-                output += " " if self.grid[x][y].object is None else self.grid[x][y].object.symbol
                 output += "|" if self.grid[x][y].walls["right"] else " "
             output += "\n"
-        for x in range(self.width):
-            output += "__"
-        output += "\n"
+
+            output += "+"
+            for x in range(self.width):
+                output += " |" if self.grid[x][y].walls["bottom"] else "  "
+            output += "\n"
+
         return output
-
-class Object:
-    def __init__(self, symbol):
-        self.symbol = symbol
-
-class Door(Object):
-    def __init__(self):
-        super().__init__("D")
-
-class Agent(Object):
-    def __init__(self):
-        super().__init__("A")
-
-class Wall(Object):
-    def __init__(self):
-        super().__init__("#")
 
 def generate_maze(width, height, num_walls):
     maze = Maze(width, height)
@@ -68,7 +46,3 @@ def generate_maze(width, height, num_walls):
         num_placed_walls += 1
 
     return maze
-
-
-# maze = generate_maze(20, 20, 100)
-# print(maze)

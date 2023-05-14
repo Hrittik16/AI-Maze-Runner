@@ -1,5 +1,5 @@
 import random
-from .maze_objects import Cell, Door, Agent, Wall
+from .maze_objects import Cell, Door, Agent, Wall, Obstacle
 
 class Maze:
     def __init__(self, width, height):
@@ -44,5 +44,11 @@ def generate_maze(width, height, num_walls):
             continue
         maze.grid[x][y].object = Wall()
         num_placed_walls += 1
+    
+    # randomly place obstacles
+    for row in range(0, height):
+        for col in range(0, width):
+            if maze.grid[row][col].object is None:
+                maze.grid[row][col].object = Obstacle()
 
     return maze

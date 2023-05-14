@@ -1,5 +1,6 @@
 import tkinter as tk
-from .maze_objects import Door, Agent
+import random
+from .maze_objects import Door, Agent, Obstacle
 
 CELL_SIZE = 20
 WALL_WIDTH = 2
@@ -28,6 +29,10 @@ class MazeGUI:
                     elif isinstance(cell.object, Agent):
                         self.canvas.create_rectangle(x1, y1, x2, y2, fill="red")
                         self.canvas.create_text((x1 + x2) / 2, (y1 + y2) / 2, text="A", fill="white")
+                    elif isinstance(cell.object, Obstacle):
+                        obstacle = random.randint(1, 3)
+                        self.canvas.create_rectangle(x1, y1, x2, y2, fill="yellow")
+                        self.canvas.create_text((x1 + x2) / 2, (y1 + y2) / 2, text=str(obstacle), fill="black")
                 else:
                     if cell.walls["top"]:
                         self.canvas.create_line(x1, y1, x2, y1, width=WALL_WIDTH)

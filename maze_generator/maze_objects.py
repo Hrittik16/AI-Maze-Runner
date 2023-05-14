@@ -22,3 +22,7 @@ class Agent:
 class Wall:
     def __init__(self):
         self.symbol = ""
+    
+class Obstacle:
+    def __init__(self):
+        self.symbol = ""
